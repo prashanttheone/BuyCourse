@@ -21,6 +21,7 @@ const isOrderIdUnique = async (orderId) => {
 
 // Create Order Route
 router.post('/create-order', async (req, res) => {
+    res.send("working");
     const { orderAmount, customerName, customerEmail, customerPhone, productName } = req.body;
 
     // Validate input
