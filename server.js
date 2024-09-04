@@ -11,7 +11,7 @@ const dbConnect = require('./config/dbConnect');
 
 app.use(express.json());
 app.use(cors({
-  origin: "https://deceifer-courses.vercel.app/",
+  origin: "https://deceifer-courses.vercel.app",
   credentials: true
 }))
 
