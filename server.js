@@ -12,6 +12,8 @@ const dbConnect = require('./config/dbConnect');
 app.use(express.json());
 app.use(cors({
   origin: "https://deceifer-courses.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }))
 
