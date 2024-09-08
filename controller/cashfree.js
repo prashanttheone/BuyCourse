@@ -14,7 +14,6 @@ const generateOrderId = () => `ORDER_${Date.now()}`;
 
 // Check if order ID is unique (dummy function, replace with actual logic)
 const isOrderIdUnique = async (orderId) => {
-    // Query your database to check for the existence of the order ID
     const existingOrder = await cashFreeModel.findOne({ orderId });
     return !existingOrder;
 };
@@ -58,9 +57,6 @@ router.post('/create-order', async (req, res) => {
         // Production URL
         const pgUrl = 'https://api.cashfree.com/pg/orders';
         
-        // SANDBOX URL (for testing; kept for reference)
-        const sandboxUrl = 'https://sandbox.cashfree.com/pg/orders';
-
         // Request payment token from Cashfree API (using Production for now)
         const response = await axios.post(pgUrl, payload, {
             headers: {
@@ -81,7 +77,18 @@ router.post('/create-order', async (req, res) => {
         console.log('Payment Token:', response.data.cftoken);
 
     } catch (error) {
-        console.error('Error creating order:', error.response?.data || error.message);
+        // Detailed logging for the Cashfree API error
+        if (error.response) {
+            console.error('Error creating order - Cashfree API responded with an error:', error.response.data);
+            console.error('Status Code:', error.response.status);
+            console.error('Headers:', error.response.headers);
+        } else if (error.request) {
+            console.error('Error creating order - No response received from Cashfree API:', error.request);
+        } else {
+            console.error('Error creating order - Something went wrong in setting up the request:', error.message);
+        }
+        console.error('Error stack trace:', error.stack);
+
         if (!res.headersSent) {
             res.status(500).json({ message: 'Internal Server Error' });
         }
