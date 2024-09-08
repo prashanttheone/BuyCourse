@@ -60,12 +60,12 @@ router.post('/create-order', async (req, res) => {
         // Request to Cashfree API for payment token
         const sandboxUrl = 'https://sandbox.cashfree.com/pg/orders';
         const pgUrl = 'https://api.cashfree.com/pg/orders';
-        const response = await axios.post(`${sandboxUrl}`, payload, {
+        const response = await axios.post(`${pgUrl}`, payload, {
             headers: {
                 'Content-Type': 'application/json',
                 'x-client-id': process.env.CASHFREE_APP_ID,
                 'x-client-secret': process.env.CASHFREE_APP_SECRET,
-                'Cashfree.XEnvironment': Cashfree.Environment.SANDBOX, // Change to 'PRODUCTION' if needed
+                'Cashfree.XEnvironment': Cashfree.Environment.PRODUCTION, // Change to 'PRODUCTION'  or SANBOX if needed
                 'x-api-version': '2023-08-01',
             },
         });
